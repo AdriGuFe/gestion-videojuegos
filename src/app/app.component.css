@@ -1,0 +1,60 @@
+.container {
+  max-width: 600px;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+input, select {
+  width: 100%;
+  padding: 6px;
+  box-sizing: border-box;
+  border: 1px solid #aaa;
+}
+
+.invalid-control {
+  border: 2px solid red;
+}
+
+.valid-control {
+  border: 2px solid green;
+}
+
+.error {
+  color: red;
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+.ok {
+  color: green;
+}
+
+.buttons {
+  margin-top: 15px;
+}
+
+button {
+  padding: 6px 14px;
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+pre {
+  background: #eee;
+  padding: 10px;
+  font-size: 13px;
+}
+
+.list li {
+  margin-bottom: 8px;
+}
