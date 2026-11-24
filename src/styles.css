@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+
+input.invalid, select.invalid, textarea.invalid {
+  border: 2px solid #bf4040;
+}
+
+.error {
+  color: #a52e2e;
+  font-size: 0.9rem;
+}
