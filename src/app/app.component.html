@@ -1,31 +1,25 @@
 <div class="container">
   <h1>Gestión de videojuegos</h1>
 
-  <form #gameForm="ngForm" (ngSubmit)="saveGame(gameForm)">
+  <!-- Con [formGroup], #form="ngForm" ya no es NgForm sino FormGroupDirective -->
+  <form [formGroup]="gameForm" #form="ngForm" (ngSubmit)="saveGame(form)" novalidate>
 
     <!-- TITULO -->
     <label for="title">Título</label>
     <input
       id="title"
       type="text"
-      name="title"
-      [(ngModel)]="game.title"
-      required
-      minlength="3"
-      maxlength="40"
-      #title="ngModel"
-      [class.invalid-control]="title.invalid && (title.dirty || title.touched)"
-      [class.valid-control]="title.valid && title.dirty"
+      formControlName="title"
+      [class.invalid]="gameForm.controls.title.invalid && (gameForm.controls.title.touched || form.submitted)"
+      [class.valid-control]="gameForm.controls.title.valid && gameForm.controls.title.dirty"
     >
-    @if (title.invalid && (title.dirty || title.touched)) {
-      @if (title.errors?.['required']) {
-        <p class="error">⚠ El título es obligatorio.</p>
-      }
-      @if (title.errors?.['minlength']) {
-        <p class="error">⚠ El título debe tener al menos 3 caracteres.</p>
-      }
-      @if (title.errors?.['maxlength']) {
-        <p class="error">⚠ El título no puede superar 40 caracteres.</p>
+    @if (gameForm.controls.title.invalid && (gameForm.controls.title.touched || form.submitted)) {
+      @if (gameForm.controls.title.hasError('required')) {
+        <small class="error">⚠ El título es obligatorio.</small>
+      } @else if (gameForm.controls.title.hasError('minlength')) {
+        <small class="error">⚠ Escribe al menos 3 caracteres.</small>
+      } @else if (gameForm.controls.title.hasError('maxlength')) {
+        <small class="error">⚠ El título no puede superar 40 caracteres.</small>
       }
     }
 
@@ -33,12 +27,9 @@
     <label for="genre">Género</label>
     <select
       id="genre"
-      name="genre"
-      [(ngModel)]="game.genre"
-      required
-      #genre="ngModel"
-      [class.invalid-control]="genre.invalid && genre.touched"
-      [class.valid-control]="genre.valid && genre.dirty"
+      formControlName="genre"
+      [class.invalid]="gameForm.controls.genre.invalid && (gameForm.controls.genre.touched || form.submitted)"
+      [class.valid-control]="gameForm.controls.genre.valid && gameForm.controls.genre.dirty"
     >
       <option value="">Selecciona un género</option>
       <option value="Platform">Platform</option>
@@ -50,20 +41,17 @@
       <option value="Simulation">Simulation</option>
       <option value="Sports">Sports</option>
     </select>
-    @if (genre.invalid && genre.touched) {
-      <p class="error">⚠ Debes seleccionar un género.</p>
+    @if (gameForm.controls.genre.invalid && (gameForm.controls.genre.touched || form.submitted)) {
+      <small class="error">⚠ Debes seleccionar un género.</small>
     }
 
     <!-- PLATAFORMA -->
     <label for="platform">Plataforma</label>
     <select
       id="platform"
-      name="platform"
-      [(ngModel)]="game.platform"
-      required
-      #platform="ngModel"
-      [class.invalid-control]="platform.invalid && platform.touched"
-      [class.valid-control]="platform.valid && platform.dirty"
+      formControlName="platform"
+      [class.invalid]="gameForm.controls.platform.invalid && (gameForm.controls.platform.touched || form.submitted)"
+      [class.valid-control]="gameForm.controls.platform.valid && gameForm.controls.platform.dirty"
     >
       <option value="">Selecciona una plataforma</option>
       <option value="PC">PC</option>
@@ -71,8 +59,8 @@
       <option value="Xbox">Xbox</option>
       <option value="Switch">Switch</option>
     </select>
-    @if (platform.invalid && platform.touched) {
-      <p class="error">⚠ Debes seleccionar una plataforma.</p>
+    @if (gameForm.controls.platform.invalid && (gameForm.controls.platform.touched || form.submitted)) {
+      <small class="error">⚠ Debes seleccionar una plataforma.</small>
     }
 
     <!-- PRECIO -->
@@ -80,24 +68,18 @@
     <input
       id="price"
       type="number"
-      name="price"
-      [(ngModel)]="game.price"
-      required
-      min="0.01"
-      max="100"
-      #price="ngModel"
-      [class.invalid-control]="price.invalid && (price.dirty || price.touched)"
-      [class.valid-control]="price.valid && price.dirty"
+      step="0.01"
+      formControlName="price"
+      [class.invalid]="gameForm.controls.price.invalid && (gameForm.controls.price.touched || form.submitted)"
+      [class.valid-control]="gameForm.controls.price.valid && gameForm.controls.price.dirty"
     >
-    @if (price.invalid && (price.dirty || price.touched)) {
-      @if (price.errors?.['required']) {
-        <p class="error">⚠ Precio obligatorio.</p>
-      }
-      @if (price.errors?.['min']) {
-        <p class="error">⚠ El precio debe ser superior a 0.</p>
-      }
-      @if (price.errors?.['max']) {
-        <p class="error">⚠ El precio no puede superar 100 €.</p>
+    @if (gameForm.controls.price.invalid && (gameForm.controls.price.touched || form.submitted)) {
+      @if (gameForm.controls.price.hasError('required')) {
+        <small class="error">⚠ Precio obligatorio.</small>
+      } @else if (gameForm.controls.price.hasError('min')) {
+        <small class="error">⚠ El precio debe ser superior a 0.</small>
+      } @else if (gameForm.controls.price.hasError('max')) {
+        <small class="error">⚠ El precio no puede superar 100 €.</small>
       }
     }
 
@@ -106,58 +88,63 @@
     <input
       id="stock"
       type="number"
-      name="stock"
-      [(ngModel)]="game.stock"
-      required
-      min="0"
-      max="999"
-      #stock="ngModel"
-      [class.invalid-control]="stock.invalid && (stock.dirty || stock.touched)"
-      [class.valid-control]="stock.valid && stock.dirty"
+      step="1"
+      formControlName="stock"
+      [class.invalid]="gameForm.controls.stock.invalid && (gameForm.controls.stock.touched || form.submitted)"
+      [class.valid-control]="gameForm.controls.stock.valid && gameForm.controls.stock.dirty"
     >
-    @if (stock.invalid && (stock.dirty || stock.touched)) {
-      @if (stock.errors?.['required']) {
-        <p class="error">⚠ Stock obligatorio.</p>
-      }
-      @if (stock.errors?.['min']) {
-        <p class="error">⚠ El stock no puede ser negativo.</p>
-      }
-      @if (stock.errors?.['max']) {
-        <p class="error">⚠ El stock no puede superar 999.</p>
+    @if (gameForm.controls.stock.invalid && (gameForm.controls.stock.touched || form.submitted)) {
+      @if (gameForm.controls.stock.hasError('required')) {
+        <small class="error">⚠ Stock obligatorio.</small>
+      } @else if (gameForm.controls.stock.hasError('min')) {
+        <small class="error">⚠ El stock no puede ser negativo.</small>
+      } @else if (gameForm.controls.stock.hasError('pattern')) {
+        <small class="error">⚠ El stock debe ser un número entero.</small>
+      } @else if (gameForm.controls.stock.hasError('max')) {
+        <small class="error">⚠ El stock no puede superar 999.</small>
       }
     }
 
     <!-- INDICADOR GLOBAL -->
-    @if (gameForm.invalid && gameForm.dirty) {
+    @if (gameForm.invalid && (gameForm.dirty || form.submitted)) {
       <p class="error">⚠ Existen campos pendientes de corregir.</p>
     }
     @if (gameForm.valid && gameForm.dirty) {
       <p class="ok">Formulario preparado para guardar.</p>
     }
 
+    <!-- Guardar siempre habilitado: la barrera de validación está en saveGame() -->
     <div class="buttons">
-      <button type="submit" [disabled]="gameForm.invalid">
-        @if (game.id) {
-          Actualizar
+      <button type="submit">
+        @if (editingId) {
+          Actualizar videojuego
         } @else {
-          Crear
+          Guardar videojuego
         }
       </button>
-      <button type="button" (click)="cancelEdit(gameForm)">Cancelar</button>
+      <button type="button" (click)="clear(form)">Limpiar</button>
     </div>
   </form>
+
+  @if (message) {
+    <p [class.error]="messageIsError" [class.ok]="!messageIsError">{{ message }}</p>
+  }
 
   <!-- Bloque didactico para ver el estado (se puede quitar) -->
   <pre>
 Formulario válido: {{ gameForm.valid }}
 Formulario dirty: {{ gameForm.dirty }}
+Formulario submitted: {{ form.submitted }}
 
-Título válido: {{ title.valid }}
-Título dirty: {{ title.dirty }}
-Título touched: {{ title.touched }}
+Título válido: {{ gameForm.controls.title.valid }}
+Título dirty: {{ gameForm.controls.title.dirty }}
+Título touched: {{ gameForm.controls.title.touched }}
 
 Errores:
-{{ title.errors | json }}
+{{ gameForm.controls.title.errors | json }}
+
+Valor del formulario:
+{{ gameForm.getRawValue() | json }}
   </pre>
 
   <h2>Videojuegos</h2>

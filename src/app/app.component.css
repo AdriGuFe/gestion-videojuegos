@@ -17,18 +17,14 @@ input, select {
   border: 1px solid #aaa;
 }
 
-.invalid-control {
-  border: 2px solid red;
-}
-
+/* input.invalid / .error están en styles.css (estilos globales) */
 .valid-control {
   border: 2px solid green;
 }
 
 .error {
-  color: red;
+  display: block;
   margin: 4px 0;
-  font-size: 14px;
 }
 
 .ok {
